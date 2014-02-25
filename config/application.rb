@@ -48,8 +48,6 @@ module Kassi
     # Read the config from the config.yml 
     APP_CONFIG = load_app_config
 
-    # enable custom domain cookies rack middleware
-    config.middleware.use "CustomDomainCookie", APP_CONFIG.domain
         
     # This is the list of all possible locales. Part of the translations may be unfinished.
     config.AVAILABLE_LOCALES = [
