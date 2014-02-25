@@ -1,0 +1,9 @@
+### /.CLOUD66/DEPLOY_HOOKS.YML ###
+production: 
+  after_checkout:
+    - source: /.cloud66/scripts/load_database.sh
+      destination: /tmp/load_database.sh
+      target: rails
+      apply_during: build_only
+      execute: true
+      sudo: true
