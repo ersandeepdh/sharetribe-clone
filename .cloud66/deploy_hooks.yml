@@ -1,0 +1,11 @@
+### /.CLOUD66/DEPLOY_HOOKS.YML ###
+
+production:
+    first_thing:
+      - source: /.cloud66/scripts/install.sh
+        destination: /tmp/install.sh
+        target: rails
+        apply_during: build_only
+        run_on: all_servers
+        execute: true
+        sudo: true
