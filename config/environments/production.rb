@@ -65,24 +65,26 @@ Kassi::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   # config.i18n.fallbacks = true #fallbacks defined in intitializers/i18n.rb
   
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { :api_key => "ad614601-5f09-4c9a-82e6-e63336ecb8bb" }
   config.action_mailer.raise_delivery_errors = true
   
-  mail_delivery_method = (APP_CONFIG.mail_delivery_method.present? ? APP_CONFIG.mail_delivery_method.to_sym : :sendmail)
+  # mail_delivery_method = (APP_CONFIG.mail_delivery_method.present? ? APP_CONFIG.mail_delivery_method.to_sym : :sendmail)
   
-  config.action_mailer.delivery_method = mail_delivery_method
-  if mail_delivery_method == :postmark
-    config.action_mailer.postmark_settings = { :api_key => APP_CONFIG.postmark_api_key }
-  elsif mail_delivery_method == :smtp
-    ActionMailer::Base.smtp_settings = {
-      :address              => APP_CONFIG.smtp_email_address,
-      :port                 => APP_CONFIG.smtp_email_port,
-      :domain               => APP_CONFIG.smtp_email_domain,
-      :user_name            => APP_CONFIG.smtp_email_user_name,
-      :password             => APP_CONFIG.smtp_email_password,
-      :authentication       => 'plain',
-      :enable_starttls_auto => true  
-    }
-  end
+  # config.action_mailer.delivery_method = mail_delivery_method
+  # if mail_delivery_method == :postmark
+  #   config.action_mailer.postmark_settings = { :api_key => APP_CONFIG.postmark_api_key }
+  # elsif mail_delivery_method == :smtp
+  #   ActionMailer::Base.smtp_settings = {
+  #     :address              => APP_CONFIG.smtp_email_address,
+  #     :port                 => APP_CONFIG.smtp_email_port,
+  #     :domain               => APP_CONFIG.smtp_email_domain,
+  #     :user_name            => APP_CONFIG.smtp_email_user_name,
+  #     :password             => APP_CONFIG.smtp_email_password,
+  #     :authentication       => 'plain',
+  #     :enable_starttls_auto => true  
+  #   }
+  # end
   
   # Sendmail is used for some mails (e.g. Newsletter) so configure it even when postmark is the main method
   ActionMailer::Base.sendmail_settings = {
