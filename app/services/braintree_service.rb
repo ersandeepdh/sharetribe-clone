@@ -82,6 +82,27 @@ class BraintreeService
         )
       end
     end
+
+    def add_card(community, account, params)
+      with_braintree_config(community) do
+        result = Braintree::CreditCard.create(
+          :customer_id => account.person_id,
+          :number => params[:number],
+          :expiration_date => "#{params[:expiration_date]["expiration_date(2i)"]}/#{params[:expiration_date]["expiration_date(1i)"]}",
+          :billing_address => {
+            :first_name => params[:first_name],
+            :last_name => params[:last_name],
+            :company => params[:company],
+            :street_address => params[:street_address],
+            :extended_address => params[:extended_address],
+            :locality => params[:locality],
+            :region => params[:region],
+            :postal_code => params[:postal_code],
+            :country_code_alpha2 => params[:country_code_alpha2]
+          }
+        )
+      end
+    end
     
     def master_merchant_id(community)
       community.payment_gateway.braintree_master_merchant_id

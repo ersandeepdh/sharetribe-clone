@@ -85,6 +85,7 @@ class BraintreeAccountsController < ApplicationController
   def show
     @list_of_states = LIST_OF_STATES
     @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
+
     @state_name, _ = LIST_OF_STATES.find do |state|
       name, code = state
       code == @braintree_account.address_region
@@ -129,6 +130,13 @@ class BraintreeAccountsController < ApplicationController
       flash[:error] ||= t("layouts.notifications.payment_details_add_error")
       render :new, locals: { form_action: @create_path }
     end
+  end
+
+  def add_card
+    braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
+    result = BraintreeService.add_card(@current_community, braintree_account, params)
+
+    render text: result.message
   end
 
   private
