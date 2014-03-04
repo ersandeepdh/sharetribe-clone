@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140207133412) do
+ActiveRecord::Schema.define(:version => 20140304163459) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20140207133412) do
     t.string   "account_number"
     t.string   "status"
     t.integer  "community_id"
+    t.string   "customer_id"
   end
 
   create_table "cached_ressi_events", :force => true do |t|

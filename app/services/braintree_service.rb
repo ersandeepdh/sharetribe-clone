@@ -83,10 +83,19 @@ class BraintreeService
       end
     end
 
-    def add_card(community, account, params)
+    def list_customer_cards(community, customer_id)
+      p customer_id
+      return nil if customer_id.blank?
+      with_braintree_config(community) do
+        customer = Braintree::Customer.find(customer_id)
+        return customer.credit_cards
+      end
+    end
+
+    def add_card(community, customer_id, params)
       with_braintree_config(community) do
         result = Braintree::CreditCard.create(
-          :customer_id => account.person_id,
+          :customer_id => customer_id,
           :number => params[:number],
           :expiration_date => "#{params[:expiration_date]["expiration_date(2i)"]}/#{params[:expiration_date]["expiration_date(1i)"]}",
           :billing_address => {
@@ -100,6 +109,20 @@ class BraintreeService
             :postal_code => params[:postal_code],
             :country_code_alpha2 => params[:country_code_alpha2]
           }
+        )
+      end
+    end
+
+    def create_customer(community, account)
+      with_braintree_config(community) do
+        return Braintree::Customer.create(
+          :first_name => account.first_name,
+          :last_name => account.last_name,
+          :company => "ShareGrid SubMerchant",
+          :email => account.email,
+          :phone => account.phone,
+          :fax => account.phone,
+          :website => "www.sharegrid.com"
         )
       end
     end

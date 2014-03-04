@@ -86,6 +86,10 @@ class BraintreeAccountsController < ApplicationController
     @list_of_states = LIST_OF_STATES
     @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
 
+    if @braintree_account.present?
+      @credit_cards = BraintreeService.list_customer_cards(@current_community, @braintree_account.customer_id)
+    end
+
     @state_name, _ = LIST_OF_STATES.find do |state|
       name, code = state
       code == @braintree_account.address_region
@@ -133,13 +137,22 @@ class BraintreeAccountsController < ApplicationController
   end
 
   def add_card
-    braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
-    result = BraintreeService.add_card(@current_community, braintree_account, params)
+    @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
+    BraintreeService.add_card(@current_community, get_customer_id, params)
 
-    render text: result.message
+    render text: "ok"
   end
 
   private
+
+  def get_customer_id
+    if @braintree_account.customer_id.blank?
+      new_customer_id = BraintreeService.create_customer(@current_community, @braintree_account).customer.id 
+      @braintree_account.customer_id = new_customer_id
+      @braintree_account.save
+    end
+    return @braintree_account.customer_id
+  end
 
   # Before filter
   def ensure_user_does_not_have_account
