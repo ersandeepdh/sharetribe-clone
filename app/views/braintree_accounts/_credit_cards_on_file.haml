@@ -8,8 +8,11 @@
       *** #{credit_card.last_4}
       =credit_card.cardholder_name
       =credit_card.expiration_date
-      Edit | Delete
-      Default
+      =link_to("Edit", edit_card_braintree_settings_payment_path(id: credit_card.token))
+      | 
+      =link_to("Delete", delete_card_braintree_settings_payment_path(id: credit_card.token))
+      |
+      =radio_button_tag "default_#{credit_card.token}", checked: credit_card.default?
       %br
       Billing Address: 
       =credit_card.billing_address.street_address
@@ -20,48 +23,5 @@
   
   Add new
 
-%p
-  Enter your Credit or Debit Card
-
-= form_tag add_card_braintree_settings_payment_path, method: :post do
-  %label
-    Card Number
-  = text_field_tag "number"
-  %label
-    Name on card  
-  = text_field_tag "name_on_card"
-
-  %label
-    Expiration Date
-    = date_select("expiration_date", "expiration_date", start_year: Date.today.year, end_year: (Date.today.year+10), use_month_numbers: true, discard_day: true, include_blank: true)
-  %p
-    Billing Address
-  %label 
-    First Name
-  = text_field_tag "first_name"
-  %label 
-    Last Name
-  = text_field_tag "last_name"
-  %label
-    Company
-  = text_field_tag "company"
-  %label
-    Address Line 1
-  = text_field_tag "street_address"
-  %label
-    Address Line 2
-  = text_field_tag "extended_address"
-  %label
-    City
-  = text_field_tag "locality"
-  %label
-    State
-  = text_field_tag "region"
-  %label
-    ZIP
-  = text_field_tag "postal_code"
-  %label
-    Country
-  = text_field_tag "country_code_alpha2"
-
-  = submit_tag "Create"
+=form_tag add_card_braintree_settings_payment_path, method: :post do
+  =render partial: "credit_card_form"

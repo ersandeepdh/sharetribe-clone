@@ -1,0 +1,5 @@
+edit card
+
+=form_tag update_card_braintree_settings_payment_path, method: :post do
+  =hidden_field_tag "id", @credit_card.token
+  =render partial: "credit_card_form"

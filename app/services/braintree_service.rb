@@ -84,7 +84,6 @@ class BraintreeService
     end
 
     def list_customer_cards(community, customer_id)
-      p customer_id
       return nil if customer_id.blank?
       with_braintree_config(community) do
         customer = Braintree::Customer.find(customer_id)
@@ -97,7 +96,7 @@ class BraintreeService
         result = Braintree::CreditCard.create(
           :customer_id => customer_id,
           :number => params[:number],
-          :expiration_date => "#{params[:expiration_date]["expiration_date(2i)"]}/#{params[:expiration_date]["expiration_date(1i)"]}",
+          :expiration_date => "#{params["date"]["month"]}/#{params["date"]["year"]}",
           :billing_address => {
             :first_name => params[:first_name],
             :last_name => params[:last_name],
@@ -111,6 +110,44 @@ class BraintreeService
           }
         )
       end
+    end
+
+    def find_card(community, id)
+      with_braintree_config(community) do
+        return Braintree::CreditCard.find(id)
+      end
+    end
+
+    def delete_card(community, id)
+      with_braintree_config(community) do
+        return Braintree::CreditCard.delete(id)
+      end
+    end
+
+    def update_card(community, params)
+      with_braintree_config(community) do
+        result = Braintree::CreditCard.update(params[:id],
+          :number => params[:number],
+          :expiration_date => "#{params["date"]["month"]}/#{params["date"]["year"]}",
+          :billing_address => {
+            :first_name => params[:first_name],
+            :last_name => params[:last_name],
+            :company => params[:company],
+            :street_address => params[:street_address],
+            :extended_address => params[:extended_address],
+            :locality => params[:locality],
+            :region => params[:region],
+            :postal_code => params[:postal_code],
+            :country_code_alpha2 => params[:country_code_alpha2]
+          }
+        )
+      end      
+    end
+
+    def make_default_card(community, id)
+      with_braintree_config(community) do
+        return Braintree::CreditCard.update(id, options:{make_default: true})
+      end      
     end
 
     def create_customer(community, account)

@@ -909,5 +909,13 @@ module ApplicationHelper
   def show_big_cover_photo?
     @homepage && (!@current_user || params[:big_cover_photo])
   end
+
+  def get_expiration_date
+    if @credit_card.try(:expiration_date).nil?
+      return Time.now
+    else
+      "01/#{@credit_card.try(:expiration_date)}".to_date 
+    end
+  end
   
 end

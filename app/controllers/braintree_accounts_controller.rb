@@ -136,11 +136,27 @@ class BraintreeAccountsController < ApplicationController
     end
   end
 
+  #credit_card operations
   def add_card
-    @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
     BraintreeService.add_card(@current_community, get_customer_id, params)
-
     render text: "ok"
+  end
+
+  def edit_card
+    @credit_card = BraintreeService.find_card(@current_community, params[:id])
+  end
+
+  def delete_card
+    BraintreeService.delete_card(@current_community, params[:id])
+  end
+
+  def make_default_card
+    BraintreeService.make_default_card(@current_community, params[:id])    
+  end
+
+  def update_card
+    BraintreeService.update_card(@current_community, params)
+    render text: "ok"    
   end
 
   private
