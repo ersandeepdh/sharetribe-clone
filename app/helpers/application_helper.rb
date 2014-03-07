@@ -918,4 +918,8 @@ module ApplicationHelper
     end
   end
   
+  def get_default_card(default)
+    return "checked" if default
+  end
+
 end

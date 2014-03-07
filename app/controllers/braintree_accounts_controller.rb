@@ -151,7 +151,8 @@ class BraintreeAccountsController < ApplicationController
   end
 
   def make_default_card
-    BraintreeService.make_default_card(@current_community, params[:id])    
+    BraintreeService.make_default_card(@current_community, params[:id])
+    render text: "ok"  
   end
 
   def update_card

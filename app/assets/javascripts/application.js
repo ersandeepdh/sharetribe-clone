@@ -26,4 +26,5 @@
 //= require homepage
 //= require custom_fields
 //= require payment_math
+//= require braintree_payment
 //= require_self

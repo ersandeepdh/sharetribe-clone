@@ -271,7 +271,7 @@ Kassi::Application.routes.draw do
   post '/:locale/people/:person_id/settings/payments/braintree/update_card' => 'braintree_accounts#update_card', :as => :update_card_braintree_settings_payment
 
   match '/:locale/people/:person_id/settings/payments/braintree/:id/delete' => 'braintree_accounts#delete_card', :as => :delete_card_braintree_settings_payment
-  match '/:locale/people/:person_id/settings/payments/braintree/:id/make_default_card' => 'braintree_accounts#make_default_card', :as => :make_default_card_braintree_settings_payment
+  post '/:locale/people/:person_id/settings/payments/braintree/:id/make_default_card' => 'braintree_accounts#make_default_card', :as => :make_default_card_braintree_settings_payment
 
   # Inside this constraits are the routes that are used when request has subdomain other than www
   constraints(CommunityDomain) do
