@@ -56,7 +56,7 @@ GEM
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
     bcrypt-ruby (3.1.2)
-    braintree (2.26.0)
+    braintree (2.29.0)
       builder (>= 2.0.0)
     builder (3.0.4)
     capybara (2.1.0)

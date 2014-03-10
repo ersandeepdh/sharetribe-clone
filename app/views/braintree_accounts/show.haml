@@ -3,6 +3,7 @@
 .left-navi-section.settings-section
 
   %h2= t(".payout_details")
+  =link_to("Edit", edit_braintree_settings_payment_path)
 
   - status = @braintree_account.status
   - if status

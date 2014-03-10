@@ -1,0 +1,88 @@
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
+
+.left-navi-section.settings-section
+
+  %h2= t(".payout_details")
+  =link_to(edit_braintree_settings_payment_path, "Edit")
+
+  - status = @braintree_account.status
+  - if status
+    %h3= "Account status: #{status}"
+
+    - if status == "pending"
+      %p
+        = "Your account is pending for approval. This shouldn't take more than a couple of minutes. We'll email you when your payment account is ready to be used."
+    - elsif status == "suspended"
+      %p
+        = "Your account was declined during the activation process. Please contact the administrators for more information."
+    - elsif status == "active"
+      %p
+        = "Your payment account is approved and ready to be used."
+    - else
+      %p
+        = "Something went wrong. Please contact administrators."
+      %p
+        = "Error: Unknown account status '#{status}'"
+  
+  = form_for @braintree_account, url: update_braintree_settings_payment_path , method: :put do |f|
+    %dl.braintree-account-details
+      %dt.braintree-account-key
+        = t(".first_name")
+      %dd.braintree-account-value
+        =f.text_field :first_name
+      %dt.braintree-account-key
+        = t(".last_name")
+      %dd.braintree-account-value
+        =f.text_field :last_name
+
+      %dt.braintree-account-key
+        = t(".email")
+      %dd.braintree-account-value
+        =f.text_field :email
+
+      %dt.braintree-account-key
+        = t(".phone")
+      %dd.braintree-account-value
+        =f.text_field :phone
+
+      %dt.braintree-account-key
+        = t(".address_street_address")
+      %dd.braintree-account-value
+        =f.text_field :address_street_address
+
+      %dt.braintree-account-key
+        = t(".address_postal_code")
+      %dd.braintree-account-value
+        =f.text_field :address_postal_code
+
+      %dt.braintree-account-key
+        = t(".address_locality")
+      %dd.braintree-account-value
+        =f.text_field :address_locality
+
+      %dt.braintree-account-key
+        = t(".address_region")
+      %dd.braintree-account-value
+        %input{type: "text", value: @state_name}
+
+      %dt.braintree-account-key
+        = t(".date_of_birth")
+      %dd.braintree-account-value
+        =f.text_field :date_of_birth
+
+      %dt.braintree-account-key
+        = t(".ssn")
+      %dd.braintree-account-value
+        =f.text_field :ssn
+
+      %dt.braintree-account-key
+        = t(".routing_number")
+      %dd.braintree-account-value
+        =f.text_field :routing_number
+
+      %dt.braintree-account-key
+        = t(".account_number")
+      %dd.braintree-account-value
+        =f.text_field :account_number
+      %br{clear: "all"}
+      %input{type: "submit"}

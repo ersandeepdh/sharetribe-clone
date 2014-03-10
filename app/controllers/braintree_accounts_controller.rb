@@ -98,6 +98,19 @@ class BraintreeAccountsController < ApplicationController
     render locals: { form_action: @create_path }
   end
 
+  def edit
+    @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
+  end
+
+  def update
+    if @braintree_account.update_attributes(params[:braintree_account])
+      merchant_account_result = BraintreeService.update_merchant_account(@braintree_account, @current_community)
+    else    
+      flash[:error] = @braintree_account.errors.full_messages
+    end      
+    render :show and return    
+  end
+
   def create
     @list_of_states = LIST_OF_STATES
     braintree_params = params[:braintree_account]
@@ -107,6 +120,7 @@ class BraintreeAccountsController < ApplicationController
     @braintree_account = BraintreeAccount.new(braintree_params)
     if @braintree_account.valid?
       merchant_account_result = BraintreeService.create_merchant_account(@braintree_account, @current_community)
+      p "RESULTADO DA CRIACAO #{merchant_account_result}"
     else
       flash[:error] = @braintree_account.errors.full_messages
       render :new, locals: { form_action: @create_path } and return
