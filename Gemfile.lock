@@ -390,7 +390,7 @@ DEPENDENCIES
   acts-as-taggable-on
   airbrake (~> 3.1.12)
   aws-sdk
-  braintree
+  braintree (~> 2.29.0)
   capybara
   coffee-rails (~> 3.2.2)
   compass-rails

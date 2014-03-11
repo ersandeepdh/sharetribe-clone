@@ -1,8 +1,9 @@
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
 
 .left-navi-section.settings-section
-
-  %h2= t(".payout_details")
+  
+  %h2 
+    Rent gears to others
   =link_to("Edit", edit_braintree_settings_payment_path)
 
   - status = @braintree_account.status
@@ -84,5 +85,4 @@
       = t(".account_number")
     %dd.braintree-account-value
       = @braintree_account.account_number
-
-  =render partial: "credit_cards_on_file"
+  =render partial: "rent_from_others"
