@@ -1,0 +1,6 @@
+%h2
+  Rent gears to others
+- if @braintree_account.braintree_account_merchant_data.present?
+  =render partial: "rent_to_others_show"
+- else
+  =render partial: "rent_to_others_new"

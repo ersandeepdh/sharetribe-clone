@@ -14,4 +14,10 @@ module BraintreePaymentsHelper
 
     (start_year..end_year).map { |m| [m, m] }
   end
+
+  def addres_form_display
+    return "none" if @braintree_account.try(:address_street_address).present?
+    return "block"
+  end
+
 end

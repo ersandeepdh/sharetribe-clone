@@ -2,7 +2,7 @@ class BraintreePaymentGateway < PaymentGateway
 
   def can_receive_payments_for?(person, listing=nil)
     braintree_account = BraintreeAccount.find_by_person_id(person.id)
-    braintree_account.present? && braintree_account.status == "active"
+    braintree_account.present? && braintree_account.try(:braintree_account_merchant_data).try(:status) == "active"
   end
 
   def new_payment_path(person, message, locale)

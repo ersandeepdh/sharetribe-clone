@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140304163459) do
+ActiveRecord::Schema.define(:version => 20140315155725) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(:version => 20140304163459) do
 
   add_index "badges", ["person_id"], :name => "index_badges_on_person_id"
 
+  create_table "braintree_account_merchant_data", :force => true do |t|
+    t.string   "ssn"
+    t.string   "routing_number"
+    t.string   "account_number"
+    t.string   "status"
+    t.string   "braintree_account_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
   create_table "braintree_accounts", :force => true do |t|
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
@@ -47,10 +57,6 @@ ActiveRecord::Schema.define(:version => 20140304163459) do
     t.string   "address_locality"
     t.string   "address_region"
     t.date     "date_of_birth"
-    t.string   "ssn"
-    t.string   "routing_number"
-    t.string   "account_number"
-    t.string   "status"
     t.integer  "community_id"
     t.string   "customer_id"
   end

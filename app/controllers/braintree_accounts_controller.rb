@@ -1,3 +1,4 @@
+
 class BraintreeAccountsController < ApplicationController
 
   LIST_OF_STATES = [
@@ -66,9 +67,6 @@ class BraintreeAccountsController < ApplicationController
     @new_path = new_braintree_settings_payment_path(@current_user)
   end
 
-  # New/create
-  before_filter :ensure_user_does_not_have_account, :only => [:new, :create]
-
   # Edit/update
   before_filter :ensure_user_has_account, :only => [:show]
 
@@ -76,26 +74,15 @@ class BraintreeAccountsController < ApplicationController
 
   skip_filter :dashboard_only
 
-  def new
-    @list_of_states = LIST_OF_STATES
-    @braintree_account = create_new_account_object
-    render locals: { form_action: @create_path }
-  end
-
-  def show
-    @list_of_states = LIST_OF_STATES
+  def main
+    @list_of_states = LIST_OF_STATES  
     @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
 
     if @braintree_account.present?
       @credit_cards = BraintreeService.list_customer_cards(@current_community, @braintree_account.customer_id)
+    else
+      @braintree_account = BraintreeAccount.new
     end
-
-    @state_name, _ = LIST_OF_STATES.find do |state|
-      name, code = state
-      code == @braintree_account.address_region
-    end
-
-    render locals: { form_action: @create_path }
   end
 
   def edit
@@ -112,15 +99,17 @@ class BraintreeAccountsController < ApplicationController
   end
 
   def create
-    @list_of_states = LIST_OF_STATES
-    braintree_params = params[:braintree_account]
-      .merge(person: @current_user)
-      .merge(community_id: @current_community.id)
+    braintree_params = params[:braintree_account].merge(person: @current_user).merge(community_id: @current_community.id)
 
-    @braintree_account = BraintreeAccount.new(braintree_params)
+    if BraintreeAccount.exists?(person_id: @current_user.id)
+      @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
+      @braintree_account.update_attributes(braintree_params)
+    else
+     @braintree_account = BraintreeAccount.new(braintree_params)
+    end
+
     if @braintree_account.valid?
       merchant_account_result = BraintreeService.create_merchant_account(@braintree_account, @current_community)
-      p "RESULTADO DA CRIACAO #{merchant_account_result}"
     else
       flash[:error] = @braintree_account.errors.full_messages
       render :new, locals: { form_action: @create_path } and return
@@ -128,11 +117,10 @@ class BraintreeAccountsController < ApplicationController
 
     if merchant_account_result.success?
       log_info("Successfully created Braintree account for person id #{@current_user.id}")
-      @braintree_account.status = merchant_account_result.merchant_account.status
+      @braintree_account.braintree_account_merchant_data.status = merchant_account_result.merchant_account.status
       success = @braintree_account.save!
     else
       log_error("Failed to created Braintree account for person id #{@current_user.id}: #{merchant_account_result.message}")
-
       success = false
       error_string = "Your payout details could not be saved, because of following errors: "
       merchant_account_result.errors.each do |e|
@@ -143,17 +131,35 @@ class BraintreeAccountsController < ApplicationController
 
     if success
       flash[:notice] = t("layouts.notifications.payment_details_add_successful")
-      redirect_to @show_path
+      redirect_to :back
     else
       flash[:error] ||= t("layouts.notifications.payment_details_add_error")
-      render :new, locals: { form_action: @create_path }
+      redirect_to :back, locals: { form_action: @create_path }
     end
+
   end
 
   #credit_card operations
   def add_card
-    BraintreeService.add_card(@current_community, get_customer_id, params)
-    render text: "ok"
+    @list_of_states = LIST_OF_STATES
+    braintree_params = params[:braintree_account].merge(person: @current_user).merge(community_id: @current_community.id)
+
+    if BraintreeAccount.exists?(person_id: @current_user.id)
+     @braintree_account = BraintreeAccount.find_by_person_id(@current_user.id) 
+    else
+     @braintree_account =  BraintreeAccount.new(braintree_params)
+    end
+
+    if @braintree_account.valid?
+      add_card_result = BraintreeService.add_card(@current_community, get_customer_id, params)
+      @braintree_account.update_attributes(braintree_params)
+      flash[:success] = "Card added"
+      redirect_to :back, locals: { form_action: @create_path } and return      
+    else
+      flash[:error] = @braintree_account.errors.full_messages
+      redirect_to :back, locals: { form_action: @create_path } and return
+    end
+
   end
 
   def edit_card
@@ -185,15 +191,6 @@ class BraintreeAccountsController < ApplicationController
     return @braintree_account.customer_id
   end
 
-  # Before filter
-  def ensure_user_does_not_have_account
-    braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
-
-    unless braintree_account.blank?
-      flash[:error] = "Can not create a new Braintree account. You already have one"
-      redirect_to @show_path
-    end
-  end
 
   # Before filter
   def ensure_user_has_account

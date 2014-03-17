@@ -11,34 +11,35 @@
   %label
     Expiration Date
     =select_date get_expiration_date, discard_day: true
-  %p
-    Billing Address
-  %label 
-    First Name
-  = text_field_tag "first_name", @credit_card.try(:billing_address).try(:first_name)
-  %label 
-    Last Name
-  = text_field_tag "last_name", @credit_card.try(:billing_address).try(:last_name)
-  %label
-    Company
-  = text_field_tag "company", @credit_card.try(:billing_address).try(:company)
-  %label
-    Address Line 1
-  = text_field_tag "street_address", @credit_card.try(:billing_address).try(:street_address)
-  %label
-    Address Line 2
-  = text_field_tag "extended_address", @credit_card.try(:billing_address).try(:extended_address)
-  %label
-    City
-  = text_field_tag "locality", @credit_card.try(:billing_address).try(:locality)
-  %label
-    State
-  = text_field_tag "region", @credit_card.try(:billing_address).try(:region)
-  %label
-    ZIP
-  = text_field_tag "postal_code", @credit_card.try(:billing_address).try(:postal_code)
-  %label
-    Country
-  = text_field_tag "country_code_alpha2", @credit_card.try(:billing_address).try(:country_code_alpha2)
+
+  =@braintree_account.try(:first_name)
+
+  %div{style: "display:#{addres_form_display}"}
+    %p
+      Billing Address
+    %label 
+      First Name
+    = text_field_tag "braintree_account[first_name]", @braintree_account.try(:first_name)
+    %label 
+      Last Name
+    = text_field_tag "braintree_account[last_name]", @braintree_account.try(:last_name)
+    %label
+      Company
+    = text_field_tag "company", "Sharegrid"
+    %label
+      Address Line 1
+    = text_field_tag "braintree_account[address_street_address]", @braintree_account.try(:address_street_address)
+    %label
+      City
+    = text_field_tag "braintree_account[address_locality]", @braintree_account.try(:address_locality)
+    %label
+      State
+    = text_field_tag "braintree_account[address_region]", @braintree_account.try(:address_region)
+    %label
+      ZIP
+    = text_field_tag "braintree_account[address_postal_code]", @braintree_account.try(:address_postal_code)
+    %label
+      Country
+    = text_field_tag "address_country_code_alpha2", " US"
 
   = submit_tag "Save"

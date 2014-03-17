@@ -1,0 +1,43 @@
+- content_for :javascript do
+  initialize_braintree_account_form("#{I18n.locale}");
+  
+= form_for @braintree_account, :url => create_braintree_settings_payment_path(@current_user), :html => { :id => "braintree_account_form"} do |form|
+  = form.label :first_name, t("braintree_accounts.new.first_name"), :class => "input"
+  = form.text_field :first_name, :class => "auto_width", :size => 30
+
+  = form.label :last_name, t("braintree_accounts.new.last_name"), :class => "input"
+  = form.text_field :last_name, :class => "auto_width", :size => 30
+
+  = form.label :email, t("braintree_accounts.new.email"), :class => "input"
+  = form.text_field :email, :class => "auto_width", :size => 30
+
+  = form.label :phone, t("braintree_accounts.new.phone"), :class => "input"
+  = form.text_field :phone, :class => "auto_width", :size => 30
+
+  = form.label :address_street_address, t("braintree_accounts.new.address_street_address"), :class => "input"
+  = form.text_field :address_street_address, :class => "auto_width", :size => 30
+
+  = form.label :address_postal_code, t("braintree_accounts.new.address_postal_code"), :class => "input"
+  = form.text_field :address_postal_code, :class => "auto_width", :size => 6
+
+  = form.label :address_locality, t("braintree_accounts.new.address_locality"), :class => "input"
+  = form.text_field :address_locality, :class => "auto_width", :size => 20
+
+  = form.label :address_region, t("braintree_accounts.new.address_region"), :class => "input"
+  = form.select :address_region, @list_of_states
+
+  = form.label :date_of_birth, t("braintree_accounts.new.date_of_birth"), :class => "input"
+  = form.date_select :date_of_birth, {:start_year => Time.now.year - 12, :end_year => Time.now.year - 100, :default => 12.years.from_now}
+  
+  = form.fields_for :braintree_account_merchant_data, BraintreeAccountMerchantData.new do |field|
+    = field.label :ssn, t("braintree_accounts.new.ssn"), :class => "input"
+    = field.text_field :ssn, :class => "auto_width", :size => 11
+
+    = field.label :routing_number, t("braintree_accounts.new.routing_number"), :class => "input"
+    = field.text_field :routing_number, :class => "auto_width", :size => 9
+
+    = field.label :account_number, t("braintree_accounts.new.account_number"), :class => "input"
+    = field.text_field :account_number, :class => "auto_width", :size => 17
+
+
+  = form.button t("braintree_accounts.new.save"), :class => "send_button"

@@ -268,6 +268,8 @@ Kassi::Application.routes.draw do
   put '/:locale/people/:person_id/settings/payments/braintree/update' => 'braintree_accounts#update', :as => :update_braintree_settings_payment
   match '/:locale/people/:person_id/settings/payments/braintree/create' => 'braintree_accounts#create', :as => :create_braintree_settings_payment
 
+  match '/:locale/people/:person_id/settings/payments/braintree/main' => 'braintree_accounts#main', :as => :main_braintree_settings_payment
+
   match '/:locale/people/:person_id/settings/payments/braintree/:id/edit_card' => 'braintree_accounts#edit_card', :as => :edit_card_braintree_settings_payment
 
   post '/:locale/people/:person_id/settings/payments/braintree/add_card' => 'braintree_accounts#add_card', :as => :add_card_braintree_settings_payment

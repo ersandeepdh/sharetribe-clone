@@ -34,31 +34,34 @@ class BraintreeService
       }
     end
 
-
     def create_merchant_account(braintree_account, community)
-      with_braintree_config(community) do
-        Braintree::MerchantAccount.create(
-            :applicant_details => {
-              :first_name => braintree_account.first_name,
-              :last_name => braintree_account.last_name,
-              :email => braintree_account.email,
-              :phone => braintree_account.phone,
-              :address => {
-                :street_address => braintree_account.address_street_address,
-                :postal_code => braintree_account.address_postal_code,
-                :locality => braintree_account.address_locality,
-                :region => braintree_account.address_region
-              },
-              :date_of_birth => braintree_account.date_of_birth,
-              :ssn => braintree_account.ssn,
-              :routing_number => braintree_account.routing_number,
-              :account_number => braintree_account.account_number
-            },
-            :tos_accepted => true,
-            :master_merchant_account_id => master_merchant_id(community),
-            :id => braintree_account.person_id
-          )
-      end
+
+      result = Braintree::MerchantAccount.create(
+        :individual => {
+          :first_name => braintree_account.first_name,
+          :last_name => braintree_account.last_name,
+          :email => braintree_account.email,
+          :phone => braintree_account.phone,
+          :date_of_birth => braintree_account.date_of_birth,
+          :ssn => braintree_account.braintree_account_merchant_data.ssn,
+          :address => {
+            :street_address => braintree_account.address_street_address,
+            :locality => braintree_account.address_locality,
+            :region => braintree_account.address_region,
+            :postal_code => braintree_account.address_postal_code
+          }
+        },
+        :funding => {
+          :destination => Braintree::MerchantAccount::FundingDestination::Bank,
+          :email => braintree_account.email,
+          :account_number => braintree_account.braintree_account_merchant_data.account_number,
+          :routing_number => braintree_account.braintree_account_merchant_data.routing_number
+        },
+        :tos_accepted => true,
+        :master_merchant_account_id => master_merchant_id(community),
+      )
+      p "resultado e #{result}"
+      return result
     end
 
     def update_merchant_account(braintree_account, community)

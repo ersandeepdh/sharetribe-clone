@@ -5,7 +5,8 @@
 
 .left-navi-section.settings-section
 
-  %h2= t(".add_payout_details")
+  %h2
+    Rent gears to others
 
   = form_for @braintree_account, :url => form_action, :html => { :id => "braintree_account_form"} do |form|
 
@@ -46,3 +47,5 @@
     = form.text_field :account_number, :class => "auto_width", :size => 17
     
     = form.button t(".save"), :class => "send_button"
+
+  =render partial: "rent_from_others"

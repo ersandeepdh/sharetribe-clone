@@ -1,0 +1,5 @@
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
+
+.left-navi-section.settings-section
+  =render partial: "rent_to_others"
+  =render partial: "rent_from_others"
