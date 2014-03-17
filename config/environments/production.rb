@@ -33,7 +33,7 @@ Kassi::Application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.serve_static_assets = false
+  config.serve_static_assets = APP_CONFIG.serve_static_assets_in_production || false
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
