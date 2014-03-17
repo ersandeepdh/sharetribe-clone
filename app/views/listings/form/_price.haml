@@ -1,36 +1,37 @@
 .price-container
-  - if @community_category.price?
-    = form.label :price, t(".price") + "*"
-    = form.text_field :price, :class => "price-field", :maxlength => "10", :placeholder => "0", :value => (@listing.price_cents ? @listing.price_cents / 100 : 0)
-    .currency-selector
-      - if @current_community.available_currencies
-        - currencies = @current_community.available_currencies.gsub(" ","").split(",")
-        - if currencies.size > 1
-          = form.select :currency, currencies, { :selected => (@listing.currency || currencies.first) }
-        - else
-          = Money.new(1, currencies[0]).symbol
-          = form.hidden_field :currency, :value => currencies[0]
+  = form.label :price, t(".price") + "*"
+  = form.text_field :price, :class => "price-field", :maxlength => "10", :placeholder => "0", :value => (@listing.price_cents ? @listing.price_cents / 100 : 0)
+  .currency-selector
+    - if @current_community.available_currencies
+      - currencies = @current_community.available_currencies.gsub(" ","").split(",")
+      - if currencies.size > 1
+        = form.select :currency, currencies, { :selected => (@listing.currency || currencies.first) }
       - else
-        = form.select :currency, major_currencies(Money::Currency.table), { :selected => (@listing.currency || "EUR") }
-    - if @community_category.price_quantity_placeholder?
-      .quantity-description= t(".per")
-      = form.text_field :quantity, :class => "quantity-field", :placeholder => t(".#{@community_category.price_quantity_placeholder}")
-    %small
-      = t(".price_excludes_vat", :vat => @current_community.vat) if @current_community.vat
-      - if @current_community.commission_from_seller
-        - if seller_commission
-          - content_for :seller_commission_js do
-            :javascript
-              $(function() {
-                updateSellerGetsValue("#listing_price", "#you-will-get", "#listing_currency", #{@current_community.commission_from_seller});
-              });
-          - if run_js_immediately
-            = yield :seller_commission_js
-          - else
-            - content_for :extra_javascript do
-              = yield :seller_commission_js
-
-          = t(".after_service_fee_you_will_get", :sum_with_currency => '<span id="you-will-get"></span>').html_safe
-
+        = Money.new(1, currencies[0]).symbol
+        = form.hidden_field :currency, :value => currencies[0]
+    - else
+      = form.select :currency, major_currencies(Money::Currency.table), { :selected => (@listing.currency || "EUR") }
+  - if @community_category.price_quantity_placeholder?
+    .quantity-description= t(".per")
+    = form.text_field :quantity, :class => "quantity-field", :placeholder => t(".#{@community_category.price_quantity_placeholder}")
+  %small
+    = t(".price_excludes_vat", :vat => @current_community.vat) if @current_community.vat
+    - if @current_community.commission_from_seller
+      - if seller_commission
+        - content_for :seller_commission_js do
+          :javascript
+            $(function() {
+              updateSellerGetsValue("#listing_price", "#you-will-get", "#listing_currency", #{@current_community.commission_from_seller});
+            });
+        - if run_js_immediately
+          = yield :seller_commission_js
         - else
-          = t(".service_fee_will_be_added", :fee => @current_community.commission_from_seller)
+          - content_for :extra_javascript do
+            = yield :seller_commission_js
+
+        = t(".after_service_fee_you_will_get", :sum_with_currency => '<span id="you-will-get"></span>').html_safe
+
+      - else
+        = t(".service_fee_will_be_added", :fee => @current_community.commission_from_seller)
+  = form.label :retail_value, "Retail Value"
+  = form.text_field :retail_value, :class => "price-field", :maxlength => "10", :placeholder => "0", :value => (@listing.retail_value ? @listing.retail_value / 100 : 0)
