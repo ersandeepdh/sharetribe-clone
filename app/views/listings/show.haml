@@ -12,21 +12,14 @@
   .col-8
     .row
       .col-12
-        - with_image_frame(@listing) do |reason, listing_image|
+        - @listing.listing_images.each do |listing_image|
           .listing-image-frame
-            - if reason == :image_ok
-              #listing-image-link.listing-image-frame-content
-                .listing-image-vertical-centering{:class => aspect_ratio_class(listing_image) }
+            #listing-image-link.listing-image-frame-content
+              .listing-image-vertical-centering{:class => aspect_ratio_class(listing_image) }
+                - if listing_image.image_processing
+                  = t("listings.show.processing_uploaded_image")
+                - else
                   = image_tag listing_image.image.url(:big), :alt => listed_listing_title(@listing), :class => "listing-image #{aspect_ratio_class(listing_image)}"
-            - else
-              .listing-image-frame-content
-                .listing-image-vertical-centering
-                  .listing-no-image
-                    - if reason == :image_processing
-                      = t("listings.show.processing_uploaded_image")
-                    - else
-                      = t(".no_description")
-
     .row
       .col-12
         - if @listing.valid_until && @listing.category.name.eql?("rideshare")

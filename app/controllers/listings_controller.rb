@@ -133,7 +133,7 @@ class ListingsController < ApplicationController
     @listing.custom_field_values = create_field_values(params[:custom_fields]) if params[:custom_fields]
 
     if @listing.new_record?
-      1.times { @listing.listing_images.build } if @listing.listing_images.empty?
+      @listing.listing_images.build if @listing.listing_images.empty?
       render :action => :new
     else
       path = new_request_category_path(:type => @listing.listing_type, :category => @listing.category.name)

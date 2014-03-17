@@ -478,5 +478,11 @@ class Listing < ActiveRecord::Base
   def price_with_vat(vat)
     price + (price * vat / 100)
   end
+
+  def listing_images_array=(array)
+    array.each do |file|
+      listing_images.build(:image => file)
+    end
+  end
   
 end

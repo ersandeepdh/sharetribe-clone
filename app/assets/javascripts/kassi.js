@@ -431,8 +431,8 @@ function update_listing_form_view(locale, attribute_hash, listing_form_menu_titl
 
 // Initialize the listing type & category selection part of the form
 function initialize_new_listing_form_selectors(locale, attribute_hash, listing_form_menu_titles) {
-  var ordered_attributes = ["listing_type", "category", "subcategory", "share_type"];
-  var selected_attributes = {"listing_type": null, "category": null, "subcategory": null, "share_type": null};
+  var ordered_attributes = ["listing_type", "category"];
+  var selected_attributes = {"listing_type": null, "category": null};
   
   update_listing_form_view(locale, attribute_hash, listing_form_menu_titles, ordered_attributes, selected_attributes);
   

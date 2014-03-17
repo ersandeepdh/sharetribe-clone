@@ -14,6 +14,7 @@
 //= require jquery.lightbox_me
 //= require jquery.transit.min
 //= require jquery.fancybox.pack
+//= require jquery-fileupload/basic
 //= require fastclick.min
 //= require infobubble
 //= require sharetribe_common
