@@ -192,3 +192,26 @@ $listing-author-avatar-height: 108;
   margin-top: 0;
   width: 100%;
 }
+
+.uploaded-images{
+  margin-top: 1.75em;
+  margin-bottom: 0.1875em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  font-weight: 600;
+  .uploaded-image{
+    img{
+      border: 1px solid;
+    }
+    float:left;
+    .remove-listing-image{
+      cursor:pointer;
+    }
+  }
+  .loading-image{
+    background-image: url(loading.gif);
+    width: 30px;
+    height: 30px;
+  }
+}
+

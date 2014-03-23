@@ -2,8 +2,12 @@
   = label_tag :image, "Upload Multiple Images", :class => "input"
   = file_field_tag(:image, :class => "file_field", :id => "fileupload", :multiple => "true", :name => "listing[listing_images_array][]")
 
-.uploaded-images  
+.uploaded-images
+  = label_tag :image, "Uploaded Images", :class => "input"
   - @listing.listing_images.each do |listing_image|
-    = image_tag listing_image.image.url(:thumb)
-    %a{class: "remove-listing-image"}
-      Remove
+    .uploaded-image
+      = image_tag listing_image.image.url(:thumb)
+      %br
+      %a{class: "remove-listing-image", data: {id: listing_image.id, listing_id: @listing.id}}
+        Remove
+  %br{clear: "all"}

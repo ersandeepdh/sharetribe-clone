@@ -9,12 +9,9 @@ class ListingImagesController < ApplicationController
   skip_filter :dashboard_only
   
   def destroy
-    @listing_image_id = @listing_image.id.to_s
+    @listing_image_id = ListingImage.find(params[:id])
     @listing_image.destroy
-    respond_to do |format|
-      format.html {redirect_to @listing}
-      format.js {render :layout => false}
-    end
+    render text: "ok"
   end
 
   def fetch_image
