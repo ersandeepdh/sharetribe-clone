@@ -45,5 +45,5 @@
 %a{href: "#add-new-card", id: "add-new-card-link"}
   Add new
 #add-new-card
-  =form_tag add_card_braintree_settings_payment_path, method: :post do
+  =form_tag add_card_braintree_settings_payment_path, id: "add-card-form", method: :post do
     =render partial: "credit_card_form"

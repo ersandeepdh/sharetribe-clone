@@ -153,10 +153,16 @@ class BraintreeAccountsController < ApplicationController
     if @braintree_account.valid?
       add_card_result = BraintreeService.add_card(@current_community, get_customer_id, params)
       @braintree_account.update_attributes(braintree_params)
-      flash[:success] = "Card added"
-      redirect_to :back, locals: { form_action: @create_path } and return      
+
+      if add_card_result.success?
+        flash[:notice] = "Card added sucessfully"
+      else
+        flash[:error] = add_card_result.errors.collect {|error| error.message }.join("<br/>").html_safe
+      end
+        redirect_to :back, locals: { form_action: @create_path } and return      
     else
-      flash[:error] = @braintree_account.errors.full_messages
+      flash[:errors] = @braintree_account.errors.full_messages
+
       redirect_to :back, locals: { form_action: @create_path } and return
     end
 

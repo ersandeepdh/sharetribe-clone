@@ -3,16 +3,18 @@
 
   %label
     Card Number
-  = text_field_tag "number", @credit_card.try(:masked_number)
-  %label
-    Name on card  
-  = text_field_tag "name_on_card", @credit_card.try(:cardholder_name)
+  = text_field_tag "number", @credit_card.try(:masked_number), id: "cc_number"
+
+  %div{style: "display:#{payment_form_display}"}  
+    %label
+      Name on card  
+    = text_field_tag "name_on_card", "#{@braintree_account.try(:first_name)} #{@braintree_account.try(:last_name)}"
 
   %label
     Expiration Date
     =select_date get_expiration_date, discard_day: true
 
-  %div{style: "display:#{addres_form_display}"}
+  %div{style: "display:#{payment_form_display}"}
     %p
       Billing Address
     %label 
@@ -40,4 +42,4 @@
       Country
     = text_field_tag "address_country_code_alpha2", " US"
 
-  = submit_tag "Save"
+  = button_tag "Save", id: "add-card-button", type: "button"

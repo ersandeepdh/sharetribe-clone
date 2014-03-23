@@ -262,21 +262,21 @@ Kassi::Application.routes.draw do
   match "/:locale/listing_bubble_multiple/:ids" => "listings#listing_bubble_multiple", :as => :listing_bubble_multiple
   match '/:locale/:page_type' => 'dashboard#campaign'
 
-  match '/:locale/people/:person_id/settings/payments/braintree/new' => 'braintree_accounts#new', :as => :new_braintree_settings_payment
-  match '/:locale/people/:person_id/settings/payments/braintree/show' => 'braintree_accounts#show', :as => :show_braintree_settings_payment
-  match '/:locale/people/:person_id/settings/payments/braintree/edit' => 'braintree_accounts#edit', :as => :edit_braintree_settings_payment
-  put '/:locale/people/:person_id/settings/payments/braintree/update' => 'braintree_accounts#update', :as => :update_braintree_settings_payment
-  match '/:locale/people/:person_id/settings/payments/braintree/create' => 'braintree_accounts#create', :as => :create_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/new' => 'braintree_accounts#new', :as => :new_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/show' => 'braintree_accounts#show', :as => :show_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/edit' => 'braintree_accounts#edit', :as => :edit_braintree_settings_payment
+  put '/:locale/people/:person_id/settings/payments/update' => 'braintree_accounts#update', :as => :update_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/create' => 'braintree_accounts#create', :as => :create_braintree_settings_payment
 
-  match '/:locale/people/:person_id/settings/payments/braintree/main' => 'braintree_accounts#main', :as => :main_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/main' => 'braintree_accounts#main', :as => :main_braintree_settings_payment
 
-  match '/:locale/people/:person_id/settings/payments/braintree/:id/edit_card' => 'braintree_accounts#edit_card', :as => :edit_card_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/:id/edit_card' => 'braintree_accounts#edit_card', :as => :edit_card_braintree_settings_payment
 
-  post '/:locale/people/:person_id/settings/payments/braintree/add_card' => 'braintree_accounts#add_card', :as => :add_card_braintree_settings_payment
-  post '/:locale/people/:person_id/settings/payments/braintree/update_card' => 'braintree_accounts#update_card', :as => :update_card_braintree_settings_payment
+  post '/:locale/people/:person_id/settings/payments/add_card' => 'braintree_accounts#add_card', :as => :add_card_braintree_settings_payment
+  post '/:locale/people/:person_id/settings/payments/update_card' => 'braintree_accounts#update_card', :as => :update_card_braintree_settings_payment
 
-  match '/:locale/people/:person_id/settings/payments/braintree/:id/delete' => 'braintree_accounts#delete_card', :as => :delete_card_braintree_settings_payment
-  post '/:locale/people/:person_id/settings/payments/braintree/:id/make_default_card' => 'braintree_accounts#make_default_card', :as => :make_default_card_braintree_settings_payment
+  match '/:locale/people/:person_id/settings/payments/:id/delete' => 'braintree_accounts#delete_card', :as => :delete_card_braintree_settings_payment
+  post '/:locale/people/:person_id/settings/payments/:id/make_default_card' => 'braintree_accounts#make_default_card', :as => :make_default_card_braintree_settings_payment
 
   # Inside this constraits are the routes that are used when request has subdomain other than www
   constraints(CommunityDomain) do
