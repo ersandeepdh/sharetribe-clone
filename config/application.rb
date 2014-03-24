@@ -22,10 +22,6 @@ module Kassi
     # Load all rack middleware files
     config.autoload_paths += %W(#{config.root}/lib/rack_middleware)
     
-    # Load models from subdirectories too
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
-    config.autoload_paths += Dir[Rails.root.join('app', 'services')]
-    
     # Enable the asset pipeline  
     config.assets.enabled = true  
 
@@ -48,7 +44,6 @@ module Kassi
     # Read the config from the config.yml 
     APP_CONFIG = load_app_config
 
-        
     # This is the list of all possible locales. Part of the translations may be unfinished.
     config.AVAILABLE_LOCALES = [
           ["English", "en"], 
@@ -74,20 +69,18 @@ module Kassi
           ["Français", "fr-rc"],
           ["Español", "es-rc"],
           ["Deutsch", "de-rc"],
+          
           ["English UL", "en-ul"],
+
           ["English SB", "en-sb"],
           ["English", "en-bf"],
+          
           ["French", "fr-bd"],
           ["English", "en-bd"],
-          ["English", "en-cf"],
-          ["English", "en-vg"],
-          ["English", "en-bl"],
-          ["Deutsch", "de-bl"],
-          ["English", "en-un"],
-          ["English", "en-qr"],
-          ["English", "en-at"],
-          ["French", "fr-at"],
           
+          ["English", "en-cf"],
+          
+          ["English", "en-vg"]
           
     ]
 
@@ -140,8 +133,7 @@ module Kassi
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :password2, :ssn, :account_number, :routing_number, :address_street_address,
-                                 :"date_of_birth(3i)", :"date_of_birth(2i)", :"date_of_birth(1i)"]
+    config.filter_parameters += [:password]
     
     config.time_zone = 'Helsinki'
     if APP_CONFIG.use_recaptcha
