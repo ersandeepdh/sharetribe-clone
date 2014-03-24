@@ -2,15 +2,18 @@
   = form.label :price, t(".price") + "*"
   = form.text_field :price, :class => "price-field", :maxlength => "10", :placeholder => "0", :value => (@listing.price_cents ? @listing.price_cents / 100 : 0)
   .currency-selector
-    - if @current_community.available_currencies
-      - currencies = @current_community.available_currencies.gsub(" ","").split(",")
-      - if currencies.size > 1
-        = form.select :currency, currencies, { :selected => (@listing.currency || currencies.first) }
-      - else
-        = Money.new(1, currencies[0]).symbol
-        = form.hidden_field :currency, :value => currencies[0]
-    - else
-      = form.select :currency, major_currencies(Money::Currency.table), { :selected => (@listing.currency || "EUR") }
+    // Set to only USD
+
+    / - if @current_community.available_currencies
+    /   - currencies = @current_community.available_currencies.gsub(" ","").split(",")
+    /   - if currencies.size > 1
+    /     = form.select :currency, currencies, { :selected => (@listing.currency || currencies.first) }
+    /   - else
+    /     = Money.new(1, currencies[0]).symbol
+    /     = form.hidden_field :currency, :value => currencies[0]
+    / - else
+    /   = form.select :currency, major_currencies(Money::Currency.table), { :selected => (@listing.currency || "USD") }
+    = form.hidden_field :currency, :value => (@listing.currency || "USD")
   - if @community_category.price_quantity_placeholder?
     .quantity-description= t(".per")
     = form.text_field :quantity, :class => "quantity-field", :placeholder => t(".#{@community_category.price_quantity_placeholder}")
