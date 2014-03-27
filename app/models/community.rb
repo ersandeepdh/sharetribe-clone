@@ -51,7 +51,7 @@ class Community < ActiveRecord::Base
   has_attached_file :logo, 
                     :styles => { 
                       :header => "192x192#",
-                      :header_icon => "40x40#",  
+                      :header_icon => "53x30#",  
                       :original => "600x600>"
                     },
                     :default_url => "/assets/logos/mobile/default.png"
@@ -65,7 +65,7 @@ class Community < ActiveRecord::Base
   
   has_attached_file :wide_logo, 
                     :styles => { 
-                      :header => "168x40#",  
+                      :header => "250x30#",  
                       :original => "600x600>"
                     },
                     :default_url => "/assets/logos/full/default.png"

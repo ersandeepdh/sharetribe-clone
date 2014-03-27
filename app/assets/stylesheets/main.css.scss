@@ -2662,7 +2662,7 @@ section.lander, header.global-header, section.about, section.create-now, footer 
 }
 
 header.global-header {
-  background: $background;
+  background: $brand-background;
   height: lines(2.5);
   width: 100%;
   
@@ -3263,7 +3263,7 @@ header.marketplace-header {
   }
   
   a.logo-side {
-    width: lines(2.5);
+    width: 70px;
     z-index: 4;
     color: $body;
     &:hover { 
@@ -3302,7 +3302,7 @@ header.marketplace-header {
   }
   
   img.marketplace-header-logo {
-    height: em(40);
+    height: em(30);
     display: none;
     
     @include media(mid-desktop) {
@@ -3311,7 +3311,7 @@ header.marketplace-header {
   }
   
   img.marketplace-header-logo-mobile {
-    height: em(40);
+    height: em(30);
     display: inline-block;
     
     @include media(mid-desktop) {

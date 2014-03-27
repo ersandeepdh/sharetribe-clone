@@ -99,6 +99,7 @@
   @extend .wrapper;
   padding-left: 0;
   padding-right: 0;
+  background: $brand-background;
   @include media(mid-desktop) {
     padding-left: lines(0.5);
     padding-right: lines(0.5);
