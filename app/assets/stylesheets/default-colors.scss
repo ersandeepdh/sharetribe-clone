@@ -41,12 +41,12 @@ $highlight:   hsl($primary-hue, 0%, 91%);
 $border:      hsl($primary-hue, 0%, 76.4%);
 
 $aside:       hsl($primary-hue, 0%, 50%);
-$light-body:  hsl($primary-hue, 0%, 28%);
+$light-body:  #adadad;
 $body:        hsl($primary-hue, 0%, 23.6%);
 $emphasis:    hsl($primary-hue, 0%, 9%);
 
-$link:        #a64c5d;
-$link2:       #00a26c;
+$link:        #ff3636;
+$link2:       #ff3636;
 
 // notification colors
 $green:       hsl($notification-hue, 73.4%, 28.2%);

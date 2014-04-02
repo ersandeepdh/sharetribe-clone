@@ -65,8 +65,8 @@ class Community < ActiveRecord::Base
   
   has_attached_file :wide_logo, 
                     :styles => { 
-                      :header => "250x30#",  
-                      :original => "600x600>"
+                      :header => "209x25",  
+                      :original => "418x50>"
                     },
                     :default_url => "/assets/logos/full/default.png"
   

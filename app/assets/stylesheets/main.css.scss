@@ -3268,7 +3268,7 @@ header.marketplace-header {
     color: $body;
     &:hover { 
       color: $body;
-      background: $highlight;
+/*       background: $highlight; */
     }
     cursor: pointer;
     position: absolute;
@@ -3281,7 +3281,7 @@ header.marketplace-header {
       position: static;
       vertical-align: top;
       display: inline-block;
-      &:hover { background: $background; }
+/*       &:hover { background: $background; } */
     }
   }
   
@@ -3302,7 +3302,7 @@ header.marketplace-header {
   }
   
   img.marketplace-header-logo {
-    height: em(30);
+    height: 35px;
     display: none;
     
     @include media(mid-desktop) {
@@ -3311,7 +3311,8 @@ header.marketplace-header {
   }
   
   img.marketplace-header-logo-mobile {
-    height: em(30);
+    height: 33px;
+    padding-top: 10px;
     display: inline-block;
     
     @include media(mid-desktop) {
@@ -3794,6 +3795,9 @@ header.marketplace-header {
   }
 }
 
+/* Custom */
+
 .billing_address{
   display: none;
 }
+.user-name {color: $light-body;}
