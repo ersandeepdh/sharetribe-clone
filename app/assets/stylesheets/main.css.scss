@@ -3273,7 +3273,7 @@ header.marketplace-header {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: lines(2.5);
+    left: lines(2.3333);
     padding-top: em(10);
     height: lines(2.5);
     @include media(mid-desktop) {
@@ -3800,4 +3800,4 @@ header.marketplace-header {
 .billing_address{
   display: none;
 }
-.user-name {color: $light-body;}
+.user-name, .mobile-menu-toggle {color: $light-body;}

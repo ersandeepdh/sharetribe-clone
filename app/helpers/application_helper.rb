@@ -148,8 +148,9 @@ module ApplicationHelper
       "new_listing" => "icon-plus-sign-alt",
       
       "search"  => "icon-search",
-      "list" => "icon-reorder",
-      
+      "list" => "icon-list",
+      "grid" => "icon-th-large",
+      "rows" => "icon-reorder",
       "home" => "icon-home",
       "community" =>"icon-group",
       "help" => "icon-question-sign",
