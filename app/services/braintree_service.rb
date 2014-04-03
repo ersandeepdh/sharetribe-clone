@@ -60,7 +60,6 @@ class BraintreeService
         :tos_accepted => true,
         :master_merchant_account_id => master_merchant_id(community),
       )
-      p "resultado e #{result}"
       return result
     end
 
@@ -119,6 +118,10 @@ class BraintreeService
         customer = Braintree::Customer.find(customer_id)
         return customer.credit_cards
       end
+    end
+
+    def make_escrow
+      
     end
 
     def add_card(community, customer_id, params)
@@ -214,6 +217,24 @@ class BraintreeService
       with_braintree_config(community) do
         Braintree::WebhookTesting.sample_notification(kind, id)
       end
+    end
+
+    def escrow(params)
+      result = Braintree::Transaction.sale(
+        :amount => params[:amount],
+        :merchant_account_id => params[:merchant_account_id],        
+        :credit_card => {
+          :number => params[:number],
+          :cvv => params[:cvv],
+          :expiration_month => params[:month],
+          :expiration_year => params[:year]
+        },
+        :options => {
+          :submit_for_settlement => true,
+          :hold_in_escrow => true
+        },
+        :service_fee_amount => (params[:service_fee_amount])
+      )
     end
     
   end
