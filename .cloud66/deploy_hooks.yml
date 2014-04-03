@@ -10,7 +10,7 @@ production:
         execute: true
         sudo: true
     after_checkout:
-      - command: cd /var/deploy/sharetribe/web_head && chown -R nginx:nginx releases
+      - command: cd /var/deploy/sharetribe/web_head && chmod 777 -R releases/
         target: rails
         sudo: true
         apply_during: all
