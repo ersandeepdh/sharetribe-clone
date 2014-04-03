@@ -123,6 +123,10 @@
     color: $background !important;
     border-color: $light-body;
     
+    .user-name {
+          color: $background !important;
+    }
+    
     @include media(tablet) {
       width: auto;
       border-bottom-color: $light-body !important;
