@@ -9,6 +9,12 @@ production:
         run_on: all_servers
         execute: true
         sudo: true
+    after_checkout:
+      - command: cd $STACK_PATH && chown -R nginx:nginx releases/
+        target: rails
+        sudo: true
+        apply_during: all
+        run_on: all_servers        
     after_rails:
       - source: /.cloud66/scripts/rake_tasks.sh
         destination: /tmp/rake_tasks.sh
