@@ -9,16 +9,16 @@ production:
         run_on: all_servers
         execute: true
         sudo: true
-    after_checkout:
+    after_rails:
       - command: cd /var/deploy/sharetribe/web_head && chmod 777 -R releases/
-        target: rails
+        target: all
         sudo: true
         apply_during: all
         run_on: all_servers        
     after_rails:
       - source: /.cloud66/scripts/rake_tasks.sh
         destination: /tmp/rake_tasks.sh
-        target: rails
+        target: all
         execute: true
         run_on: all_servers
         apply_during: all
