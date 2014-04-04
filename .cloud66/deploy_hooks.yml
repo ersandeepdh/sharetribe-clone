@@ -10,11 +10,13 @@ production:
         execute: true
         sudo: true
     after_rails:
-      - command: cd /var/deploy/sharetribe/web_head && chmod 777 -R releases/
+      - source: /.cloud66/scripts/change_permissions.sh
+        destination: /tmp/change_permissions.sh
         target: rails
-        sudo: true
+        execute: true
+        run_on: all_servers
         apply_during: all
-        run_on: all_servers        
+        sudo: true
     after_rails:
       - source: /.cloud66/scripts/rake_tasks.sh
         destination: /tmp/rake_tasks.sh
