@@ -1,11 +1,21 @@
 - content_for :extra_javascript do
   :javascript
     $(document).ready(function() {
-      initialize_new_listing_form_selectors("#{I18n.locale}", #{@current_community.categories_tree.to_json}, #{listing_form_menu_titles(@current_community.available_categorization_values).to_json});
+      type_selected = "";
+
+      $("#select-items-services a").click(function(){
+        type_selected = $(this).attr("data-type");
+        $("#select-items-services").hide();
+        $("#select-categories").show();
+      })
+
     });
 
 - content_for :extra_javascript do
   = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true"
+
+- content_for :extra_javascript do
+  = javascript_include_tag "googlemaps"
 
 - content_for :title_header do
   %h1= t("listings.new.post_a_new_listing")
@@ -13,24 +23,55 @@
 - available_categorizations = @current_community.available_categorizations
 #new_listing_form.new-listing-form.centered-section
 
-  #selected-groups
-    - available_categorizations.each do |attribute, values|
-      - if values.size > 1
-        .selected-group{:name => attribute} 
-          - values.each do |value|
-            %a.select.selected{:href => "#", :name => value.name}
-              = icon_tag(value.icon_name, ["link-icon"])
-              .link-text= t(".selected_#{attribute}", attribute.to_sym => t(".selected_#{value.name}", :default => value.display_name))
-  
   %h2.listing-form-title{:id => "foo"}
+    Select Category
 
-  #option-groups
-    - available_categorizations.each do |attribute, values|
-      - if values.size > 1
-        .option-group{:name => attribute}
-          - values.each do |value|
-            %a.select.option{:href => "#", :name => value.name}
-              = icon_tag(value.icon_name, ["link-icon"])
-              .link-text= value.description
+  #select-items-services
+    %a{class: "select option", data: {type: "items"} }
+      .link-text
+        Items    
+    %a{class: "select option", data: {type: "services"}}
+      .link-text
+        Services
+  #select-categories
+    - @current_community.categories.each do |category|
+      %a{class: "select option", href:"", name: "item" }
+        .link-text
+          =category.name
 
-  .form-fields
+
+  = form_for @listing, :html => {:multipart => true} do |form|
+
+    =form.label :title
+    =form.text_field :title
+
+    =form.label :price
+    =form.text_field :price
+
+    =form.label :retail_value
+    =form.text_field :retail_value
+
+    =form.label :description    
+    =form.text_field :description
+
+    =form.label :location
+    =form.text_field :location
+
+    #listing_map_canvas.jsmap
+
+    - content_for :map_js do
+      :javascript 
+        $(document).ready(function() { 
+            var source = "listing_origin";
+            googlemapMarkerInit('listing_map_canvas',"listing_origin_loc_attributes","listing_origin",true, #{tribe_latitude}, #{tribe_longitude});
+        });
+
+      - content_for :extra_javascript do
+        = yield :map_js
+
+    =render partial: "listings/form/images"
+    =form.hidden_field(:category)
+    =form.button t(".save_listing"), :class => "send_button"
+   
+
+= render :partial => "listings/help_texts", :collection => ["help_valid_until"], :as => :field    

@@ -389,6 +389,7 @@ function update_listing_form_view(locale, attribute_hash, listing_form_menu_titl
           $('.form-fields').removeClass('hidden');
           var new_listing_path = '/' + locale + '/listings/new';
           $.get(new_listing_path, selected_attributes, function(data) {
+            
             $('.form-fields').html(data);
           });
         } else {

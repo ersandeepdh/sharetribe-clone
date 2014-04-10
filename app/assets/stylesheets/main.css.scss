@@ -3801,3 +3801,12 @@ header.marketplace-header {
   display: none;
 }
 .user-name, .mobile-menu-toggle {color: $light-body;}
+
+
+#select-categories{
+  display:none;
+}
+
+#select-items-services a{
+  cursor:pointer;
+}
