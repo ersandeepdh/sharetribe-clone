@@ -96,21 +96,21 @@ class ListingsController < ApplicationController
     @listing.category = Category.find_by_name(params[:subcategory].blank? ? params[:category] : params[:subcategory])
     @listing.share_type = ShareType.find_by_name(params[:share_type].blank? ? params[:listing_type] : params[:share_type])
     if @listing.category && @listing.category.name == "rideshare"
-	    @listing.build_origin_loc(:location_type => "origin_loc")
-	    @listing.build_destination_loc(:location_type => "destination_loc")
+      @listing.build_origin_loc(:location_type => "origin_loc")
+      @listing.build_destination_loc(:location_type => "destination_loc")
     else
-	    if (@current_user.location != nil)
-	      temp = @current_user.location
-	      temp.location_type = "origin_loc"
-	      @listing.build_origin_loc(temp.attributes)
+      if (@current_user.location != nil)
+        temp = @current_user.location
+        temp.location_type = "origin_loc"
+        @listing.build_origin_loc(temp.attributes)
       else
-	      @listing.build_origin_loc(:location_type => "origin_loc")
+        @listing.build_origin_loc(:location_type => "origin_loc")
       end
     end
     1.times { @listing.listing_images.build }
 
     if request.xhr? # AJAX request to get the actual form contents
-      #@community_category = @current_community.community_category(@listing.category.top_level_parent, @listing.share_type)
+      @community_category = @current_community.community_category(@listing.category.top_level_parent, @listing.share_type)
       render :partial => "listings/form/form_content" 
     else
       render
@@ -130,33 +130,35 @@ class ListingsController < ApplicationController
     end
     @listing = @current_user.create_listing params[:listing]
 
-    @listing.custom_field_values = create_field_values(params[:custom_fields]) if params[:custom_fields]
+    #@listing.custom_field_values = create_field_values(params[:custom_fields]) if params[:custom_fields]
 
-    if @listing.new_record?
-      @listing.listing_images.build if @listing.listing_images.empty?
-      render :action => :new
-    else
-      path = new_request_category_path(:type => @listing.listing_type, :category => @listing.category.name)
-      flash[:notice] = t("layouts.notifications.listing_created_successfully", :new_listing_link => view_context.link_to(t("layouts.notifications.create_new_listing"), path)).html_safe
+    # if @listing.new_record?
+    #   @listing.listing_images.build if @listing.listing_images.empty?
+    #   render :action => :new
+    # else
+      # path = new_request_category_path(:type => @listing.listing_type, :category => @listing.category.name)
+
+      #flash[:notice] = t("layouts.notifications.listing_created_successfully", :new_listing_link => view_context.link_to(t("layouts.notifications.create_new_listing"), path)).html_safe
+
       Delayed::Job.enqueue(ListingCreatedJob.new(@listing.id, @current_community.id))
 
-      community_category = @current_community.community_category(@listing.category.top_level_parent, @listing.share_type)
+      community_category = @current_community.community_category(@listing.category.top_level_parent)
 
-      # Send reminder about missing payment information
+      #Send reminder about missing payment information
       if send_payment_settings_reminder?(community_category, @listing, @current_user, @current_community)
         PersonMailer.payment_settings_reminder(@listing, @listing.author, @current_community).deliver
       end
-
+      p "CRIAR LISTING =============> #{@listing}"
       redirect_to @listing
-    end
+    # end
   end
   
   def edit
     @seller_commission = @current_community.payment_gateway.seller_pays_commission? if @current_community.payments_in_use?
     @selected_tribe_navi_tab = "home"
-	  if !@listing.origin_loc
-	      @listing.build_origin_loc(:location_type => "origin_loc")
-	  end
+    if !@listing.origin_loc
+        @listing.build_origin_loc(:location_type => "origin_loc")
+    end
     1.times { @listing.listing_images.build } if @listing.listing_images.empty?
   end
   

@@ -117,8 +117,8 @@ class Listing < ActiveRecord::Base
   # validates_inclusion_of :category, :in => VALID_CATEGORIES
   # validate :given_share_type_is_one_of_valid_share_types
   validates_inclusion_of :visibility, :in => VALID_VISIBILITIES
-  validates_presence_of :category
-  validates_presence_of :share_type
+  #validates_presence_of :category
+  #validates_presence_of :share_type
   validates_inclusion_of :valid_until, :allow_nil => :true, :in => DateTime.now..DateTime.now + 7.months
   validates_numericality_of :price_cents, :only_integer => true, :greater_than_or_equal_to => 0, :message => "price must be numeric", :allow_nil => true
   validate :valid_until_is_not_nil
@@ -237,9 +237,9 @@ class Listing < ActiveRecord::Base
   end
   
   def valid_until_is_not_nil
-    if !rideshare? && share_type.is_request? && !valid_until
-      errors.add(:valid_until, "cannot be empty")
-    end  
+    # if !rideshare? && share_type.is_request? && !valid_until
+    #   errors.add(:valid_until, "cannot be empty")
+    # end  
   end
   
   # Overrides the to_param method to implement clean URLs

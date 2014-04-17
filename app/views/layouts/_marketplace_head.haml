@@ -1,9 +1,5 @@
 %title 
-  #{service_name}
-  - if @listing && action_name.eql?("show")
-    = "- #{listed_listing_title(@listing)}"
-  - elsif service_name.casecmp(@current_community.name(I18n.locale)) != 0
-    = "- #{@current_community.name(I18n.locale)}"
+  = "- #{@current_community.name(I18n.locale)}"
 
 %meta{ :name => "keywords", :content => t(".keywords") }
 %meta{ :property => "og:url", :content =>"#{@current_community.full_url}#{request.fullpath}"}
