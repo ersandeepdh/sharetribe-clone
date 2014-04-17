@@ -19,7 +19,7 @@
                 - if listing_image.image_processing
                   = t("listings.show.processing_uploaded_image")
                 - else
-                  = image_tag listing_image.image.url(:big), :alt => listed_listing_title(@listing), :class => "listing-image #{aspect_ratio_class(listing_image)}"
+                  = image_tag listing_image.image.url(:big), :class => "listing-image #{aspect_ratio_class(listing_image)}"
     .row
       .col-12
         - if @listing.valid_until && @listing.category.name.eql?("rideshare")
