@@ -2,6 +2,13 @@
 
 production:
     after_rails:
+      - source: /.cloud66/scripts/rake_tasks.sh
+        destination: /tmp/rake_tasks.sh
+        target: rails
+        execute: true
+        run_on: all_servers
+        apply_during: all
+        sudo: true    
       - source: /.cloud66/scripts/change_permissions.sh
         destination: /tmp/change_permissions.sh
         target: rails
@@ -9,10 +16,3 @@ production:
         run_on: all_servers
         apply_during: all
         sudo: true
-      - source: /.cloud66/scripts/rake_tasks.sh
-        destination: /tmp/rake_tasks.sh
-        target: rails
-        execute: true
-        run_on: all_servers
-        apply_during: all
-        sudo: true        
