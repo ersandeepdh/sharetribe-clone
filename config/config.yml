@@ -86,15 +86,15 @@ default: &default_settings
   # If using SMTP or postmark, uncomment corresponding lines and enter your information.
   # the SMPT lines below contain example of using Gmail, but you can use any SMTP
   # For the domain part you can enter HELO domain, if needed. Google for more info. :)
-  mail_delivery_method: postmark
+  mail_delivery_method: smtp
 
-  # smtp_email_address: "smtp.gmail.com"
-  # smtp_email_port: 587
-  # smtp_email_user_name: "<YOUR_GMAIL_USERNAME>@gmail.com"
-  # smtp_email_password: "<YOUR_GMAIL_PASSWORD>"
-  # smtp_email_domain: "localhost"
+  smtp_email_address: "smtp.gmail.com"
+  smtp_email_port: 587
+  smtp_email_user_name: "<YOUR_GMAIL_USERNAME>@gmail.com"
+  smtp_email_password: "<YOUR_GMAIL_PASSWORD>"
+  smtp_email_domain: "localhost"
 
-  postmark_api_key: ad614601-5f09-4c9a-82e6-e63336ecb8bb
+  # postmark_api_key: ad614601-5f09-4c9a-82e6-e63336ecb8bb
 
 
   # This will be the from field in the mails sent from Sharetribe
