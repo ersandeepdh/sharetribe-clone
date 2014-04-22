@@ -1,14 +1,6 @@
 ### /.CLOUD66/DEPLOY_HOOKS.YML ###
 
 production:
-    first_thing:
-      - source: /.cloud66/scripts/install.sh
-        destination: /tmp/install.sh
-        target: rails
-        apply_during: build_only
-        run_on: all_servers
-        execute: true
-        sudo: true
     after_rails:
       - source: /.cloud66/scripts/change_permissions.sh
         destination: /tmp/change_permissions.sh
@@ -17,7 +9,6 @@ production:
         run_on: all_servers
         apply_during: all
         sudo: true
-    after_rails:
       - source: /.cloud66/scripts/rake_tasks.sh
         destination: /tmp/rake_tasks.sh
         target: rails
