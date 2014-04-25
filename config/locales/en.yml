@@ -132,8 +132,8 @@ en:
       request: Requesting
   common:
     edit_page: "Edit page"
-    default_community_slogan: "Community marketplace"
-    default_community_description: "This is a place to sell, rent, swap and share goods and services with the other members of the community."
+    default_community_slogan: "The ShareGrid Marketplace"
+    default_community_description: "Welcome to the camera sharing community."
     cancel: Cancel
     fields_that_are_mandatory: "Fields marked with star (*) are mandatory."
     or: or
@@ -553,7 +553,7 @@ en:
     common:
       check_your_settings: "Check your settings"
       hey: "Hello %{name},"
-      kassi_team: "The %{service_name} Team"
+      kassi_team: "The ShareGrid Team"
       thanks: "Thanks,"
       want_to_control_emails: "Want to control which emails you receive from %{service_name}?"
       dont_want_to_receive_these_emails: "Don't want to receive these emails?"
@@ -868,8 +868,8 @@ en:
       all_categories: "All categories"
   infos:
     about:
-      default_about_text_title: "What is Sharetribe?"
-      default_about_text: "This marketplace is powered by Sharetribe platform. With Sharetribe you can easily create your own marketplace website. It's free and only takes a minute. %{click_here_link} to learn more!"
+      default_about_text_title: "What is ShareGrid?"
+      default_about_text: "This marketplace."
       click_here_link_text: "Click here"
   layouts:
     no_tribe:
