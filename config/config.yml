@@ -154,7 +154,7 @@ default: &default_settings
   # Global Service name
   # If you want to call this service with different name on this server, you can specify it here
   # This can also be set community specific in community.settings["service_name"]
-  global_service_name: Sharetribe
+  global_service_name: ShareGrid
   
   # Icon set
   # By default Sharetribe uses the Font Awesome Icon Pack 

@@ -430,7 +430,7 @@ module ApplicationHelper
     if @current_community
       service_name = @current_community.service_name
     else
-      service_name = APP_CONFIG.global_service_name || "Sharetribe"
+      service_name = APP_CONFIG.global_service_name || "ShareGrid"
     end
     if form #check if special form of the name is required
       service_name = ApplicationHelper.service_name_other_forms(service_name)[form.to_sym]
