@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140328133415) do
+ActiveRecord::Schema.define(:version => 20140510010640) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -758,6 +758,9 @@ ActiveRecord::Schema.define(:version => 20140328133415) do
     t.string   "checkout_merchant_id"
     t.string   "checkout_merchant_key"
     t.string   "organization_name"
+    t.string   "twitter_link"
+    t.string   "linkedin_link"
+    t.string   "facebook_link"
   end
 
   add_index "people", ["email"], :name => "index_people_on_email", :unique => true

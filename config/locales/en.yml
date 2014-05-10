@@ -1564,6 +1564,10 @@ en:
       add_location: "Add location"
       add_phone_number: "Add phone number"
       address: "Location:"
+      social:
+        facebook: "Facebook"
+        linkedin: "LinkedIn"
+        twitter: "Twitter"
       as_expected: "As expected"
       edit_profile_info: "Edit profile"
       exceeded_expectations: "Exceeded expectations"
@@ -1705,6 +1709,10 @@ en:
       postal_code: "Postal code"
       profile_page: "in your profile page"
       profilemap: Mapview
+      social:
+        facebook: "Facebook"
+        linkedin: "LinkedIn"
+        twitter: "Twitter"
       street_address: Location
       these_fields_are_shown_in_your: "This information is visible to all %{service_name} users"
       visible_to_everybody: "visible to everybody"
