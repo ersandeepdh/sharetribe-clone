@@ -28,7 +28,7 @@ class Person < ActiveRecord::Base
   # Setup accessible attributes for your model (the rest are protected)
   attr_accessible :username, :password, :password2, :password_confirmation,
                   :remember_me, :consent, :login,
-                  :twitter_link, :facebook_link, :linkedin_link
+                  :twitter_link, :facebook_link, :linkedin_link, :personal_web_link
 
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,

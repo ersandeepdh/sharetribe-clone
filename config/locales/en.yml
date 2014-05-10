@@ -1564,6 +1564,7 @@ en:
       add_location: "Add location"
       add_phone_number: "Add phone number"
       address: "Location:"
+      personal_web_link: "Personal Website"
       social:
         facebook: "Facebook"
         linkedin: "LinkedIn"
@@ -1705,6 +1706,7 @@ en:
       given_name: "Given name"
       location_description: "You can give either your exact location or, for example, only your zip code. Please add at least your zip code. You can also select a location from the map below."
       phone_number: "Phone number"
+      personal_web_link: "Personal website"
       profile_picture: "Profile picture"
       postal_code: "Postal code"
       profile_page: "in your profile page"

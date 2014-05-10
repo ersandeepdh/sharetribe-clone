@@ -63,6 +63,12 @@
         = t('.visible_to_registered_users')
     = form.text_field :linkedin_link, :class => "text_field", :maxlength => "125"
 
+    .inline-label-container
+      = form.label :personal_web_link, t(".personal_web_link"), :class => "inline"
+      %small
+        = t('.visible_to_registered_users')
+    = form.text_field :personal_web_link, :class => "text_field", :maxlength => "125"
+
     -# Profile picture
     = form.label :image, t(".profile_picture")
     = form.file_field :image, :size => 30, :id => "avatar_file"
