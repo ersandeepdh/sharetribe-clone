@@ -21,7 +21,7 @@
 
 - content_for :title_header do
   %h1= t("listings.new.post_a_new_listing")
-  
+
 - available_categorizations = @current_community.available_categorizations
 #new_listing_form.new-listing-form.centered-section
 
@@ -31,7 +31,7 @@
   #select-items-services
     %a{class: "select option", data: {type: "items"} }
       .link-text
-        Items    
+        Items
     %a{class: "select option", data: {type: "services"}}
       .link-text
         Services
@@ -60,8 +60,8 @@
     #listing_map_canvas.jsmap
 
     - content_for :extra_javascript do
-      :javascript 
-        $(document).ready(function() { 
+      :javascript
+        $(document).ready(function() {
             var source = "listing_origin";
             googlemapMarkerInit('listing_map_canvas',"listing_origin_loc_attributes","listing_origin",true, #{tribe_latitude}, #{tribe_longitude});
         });
@@ -71,4 +71,4 @@
     =form.hidden_field(:category)
     =form.button t(".save_listing"), :class => "send_button"
 
-= render :partial => "listings/help_texts", :collection => ["help_valid_until"], :as => :field    
+= render :partial => "listings/help_texts", :collection => ["help_valid_until"], :as => :field
