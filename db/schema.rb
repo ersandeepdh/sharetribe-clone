@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140510023337) do
+ActiveRecord::Schema.define(:version => 20140529204703) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -304,6 +304,7 @@ ActiveRecord::Schema.define(:version => 20140510023337) do
     t.datetime "last_message_at"
     t.integer  "automatic_confirmation_after_days"
     t.integer  "community_id"
+    t.float    "response_time"
   end
 
   create_table "country_managers", :force => true do |t|
