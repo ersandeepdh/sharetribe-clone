@@ -140,6 +140,14 @@ class Conversation < ActiveRecord::Base
     participants.each { |p| return p if listing.requester?(p) }
   end
 
+  def initiator
+    messages.order(:created_at).first.sender_id
+  end
+
+  def responder
+    participants.reject { |p| p.id == self.initiator }.first.id
+  end
+
   # If payment through Sharetribe is required to
   # complete the transaction, return true, whether the payment
   # has been conducted yet or not.
