@@ -667,6 +667,27 @@ class Person < ActiveRecord::Base
     return conversations
   end
 
+  def number_of_conversations_without_participation
+    self.participations.where(last_sent_at: nil).count.to_f
+  end
+
+  def number_of_conversations_with_participation
+    (self.conversations.count - self.number_of_conversations_without_participation).to_f
+  end
+
+  def average_response_rate
+    (number_of_conversations_with_participation / conversations.count * 100).round
+  end
+
+  def average_response_time
+    conversations = self.conversations.where('response_time != ?', 'nil')
+    conversations.reject! { |c| c.responder != self.id  }
+    conversations.map! { |c| c.response_time }
+    if !conversations.empty?
+      average_response_time = (conversations.inject{ |sum, element| sum + element } / conversations.size).round
+    end
+  end
+
   def pending_email_confirmation_to_join?(community)
     membership = community_memberships.where(:community_id => community.id).first
     if membership
