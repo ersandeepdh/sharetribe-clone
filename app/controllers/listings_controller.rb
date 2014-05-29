@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   include PeopleHelper
-  
+
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_filter :verify_authenticity_token, :only => [:close, :update, :follow, :unfollow]
 
@@ -11,21 +11,21 @@ class ListingsController < ApplicationController
   before_filter :only => [ :new, :create ] do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_create_new_listing", :sign_up_link => view_context.link_to(t("layouts.notifications.create_one_here"), sign_up_path)).html_safe
   end
-  
+
   before_filter :person_belongs_to_current_community, :only => [:index]
   before_filter :save_current_path, :only => :show
   before_filter :ensure_authorized_to_view, :only => [ :show, :follow, :unfollow ]
-  
+
   before_filter :only => [ :close ] do |controller|
     controller.ensure_current_user_is_listing_author t("layouts.notifications.only_listing_author_can_close_a_listing")
   end
-  
+
   before_filter :only => [ :edit, :update ] do |controller|
     controller.ensure_current_user_is_listing_author t("layouts.notifications.only_listing_author_can_edit_a_listing")
   end
-  
+
   skip_filter :dashboard_only
-  
+
   def index
     if params[:format] == "atom" # API request for feed
       redirect_to :controller => "Api::ListingsController", :action => :index
@@ -41,15 +41,15 @@ class ListingsController < ApplicationController
     end
     redirect_to root
   end
-  
+
   def requests
     redirect_to root
   end
-  
+
   def offers
     redirect_to root
   end
-  
+
   # method for serving Listing data (with locations) as JSON through AJAX-requests.
   def locations_json
     params[:include] = :origin_loc
@@ -60,7 +60,7 @@ class ListingsController < ApplicationController
     @listings = Listing.find_with(params, @current_user, @current_community, 500)
     render :json => { :data => @listings }
   end
-  
+
   def listing_bubble
     if params[:id]
       @listing = Listing.find(params[:id])
@@ -69,9 +69,9 @@ class ListingsController < ApplicationController
       else
         render :partial => "bubble_listing_not_visible"
       end
-    end 
+    end
   end
-  
+
   # Used to show multiple listings in one bubble
   def listing_bubble_multiple
     @listings = Listing.visible_to(@current_user, @current_community, params[:ids]).order("id DESC")
@@ -88,7 +88,7 @@ class ListingsController < ApplicationController
       @listing.increment!(:times_viewed)
     end
   end
-  
+
   def new
     @seller_commission = @current_community.payment_gateway.seller_pays_commission? if @current_community.payments_in_use?
     @selected_tribe_navi_tab = "new_listing"
@@ -111,7 +111,7 @@ class ListingsController < ApplicationController
 
     if request.xhr? # AJAX request to get the actual form contents
       @community_category = @current_community.community_category(@listing.category.top_level_parent, @listing.share_type)
-      render :partial => "listings/form/form_content" 
+      render :partial => "listings/form/form_content"
     else
       render
     end
@@ -123,7 +123,7 @@ class ListingsController < ApplicationController
       current_community.payments_in_use? &&
       !@current_user.can_receive_payments_at?(@current_community)
   end
-  
+
   def create
     if params[:listing][:origin_loc_attributes][:address].empty? || params[:listing][:origin_loc_attributes][:address].blank?
       params[:listing].delete("origin_loc_attributes")
@@ -152,7 +152,7 @@ class ListingsController < ApplicationController
       redirect_to @listing
     # end
   end
-  
+
   def edit
     @seller_commission = @current_community.payment_gateway.seller_pays_commission? if @current_community.payments_in_use?
     @selected_tribe_navi_tab = "home"
@@ -161,7 +161,7 @@ class ListingsController < ApplicationController
     end
     1.times { @listing.listing_images.build } if @listing.listing_images.empty?
   end
-  
+
   def update
     if (params[:listing][:origin] && (params[:listing][:origin_loc_attributes][:address].empty? || params[:listing][:origin].blank?))
       params[:listing].delete("origin_loc_attributes")
@@ -179,21 +179,21 @@ class ListingsController < ApplicationController
       redirect_to @listing
     else
       render :action => :edit
-    end    
+    end
   end
-  
+
   def close
     @listing.update_attribute(:open, false)
     respond_to do |format|
       format.html {
-        redirect_to @listing 
+        redirect_to @listing
       }
       format.js {
-        render :layout => false 
+        render :layout => false
       }
     end
   end
-  
+
   #shows a random listing from current community
   def random
     open_listings_ids = Listing.currently_open.select("id").find_with(nil, @current_user, @current_community).all
@@ -206,24 +206,24 @@ class ListingsController < ApplicationController
     @listing = Listing.find_by_id(random_id)
     render :action => :show
   end
-  
+
   def ensure_current_user_is_listing_author(error_message)
     @listing = Listing.find(params[:id])
     return if current_user?(@listing.author) || @current_user.has_admin_rights_in?(@current_community)
     flash[:error] = error_message
     redirect_to @listing and return
   end
-  
+
   def follow
     change_follow_status("follow")
   end
-  
+
   def unfollow
     change_follow_status("unfollow")
   end
-  
+
   private
-  
+
   # Ensure that only users with appropriate visibility settings can view the listing
   def ensure_authorized_to_view
     @listing = Listing.find(params[:id])
@@ -243,15 +243,15 @@ class ListingsController < ApplicationController
       end
     end
   end
-  
+
   def change_follow_status(status)
     status.eql?("follow") ? @current_user.follow(@listing) : @current_user.unfollow(@listing)
     respond_to do |format|
       format.html {
-        redirect_to @listing 
+        redirect_to @listing
       }
       format.js {
-        render :follow, :layout => false 
+        render :follow, :layout => false
       }
     end
   end
@@ -280,7 +280,7 @@ class ListingsController < ApplicationController
     mapped_values = custom_field_params.map do |custom_field_id, answer_value|
       custom_field_value_factory(custom_field_id, answer_value) unless answer_value.blank?
     end.compact
-    
+
     return mapped_values
   end
 
