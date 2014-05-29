@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
 
-  after_save :update_conversation_read_status
+  after_save :update_conversation_read_status, :update_conversation_response_time
 
   belongs_to :sender, :class_name => "Person"
   belongs_to :conversation
@@ -18,6 +18,24 @@ class Message < ActiveRecord::Base
     conversation.participations.each do |p|
       last_at = p.person.eql?(sender) ? :last_sent_at : :last_received_at
       p.update_attributes({ :is_read => p.person.eql?(sender), last_at => created_at})
+    end
+  end
+
+  def update_conversation_response_time
+    conversation = self.conversation
+
+    if !conversation.response_time
+      messages = conversation.messages.order(:created_at)
+
+      conversation_initiator = conversation.initiator
+      conversation_responder = conversation.responder
+
+      initial_message = messages.where(:sender_id => conversation_initiator).first
+      if initial_response = messages.where(:sender_id => conversation_responder).first
+        conversation.update_attribute(:response_time, initial_response.created_at - initial_response.created_at)
+      else
+        conversation.response_time = nil
+      end
     end
   end
 
