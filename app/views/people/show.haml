@@ -69,6 +69,25 @@
       .profile-action-button-desktop
         = render :partial => "profile_action_button"
 
+    .row.listing-author-activity
+      %i.listing-author-activity-icon{:class => icon_class("clock")}
+      .listing-author-activity-item
+        .listing-author-activity-value
+          - if @person.average_response_time
+            = distance_of_time_in_words(@person.average_response_time)
+          - else
+            = "no responses yet"
+      %p.content
+        = "Response Time"
+
+    .row.listing-author-activity
+      %i.listing-author-activity-icon{:class => icon_class("testimonial")}
+      .listing-author-activity-item
+        .listing-author-activity-value
+          = "#{@person.average_response_rate} %"
+      %p.content
+        = "Response Rate"
+
     / .row.listing-author-activity
     /   %h2
     /     = "Verifications"
